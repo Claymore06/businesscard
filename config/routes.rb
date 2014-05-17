@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :companies do
+    resources :groups do
+      resources :users do
+        resources :name_cards do
+        end
+      end
+    end
+  end
+  root :to => "companies#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
