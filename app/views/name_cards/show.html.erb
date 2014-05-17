@@ -1,29 +1,31 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = NameCard -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @name_card.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:user_id) %>:</strong></dt>
+  <dd><%= @name_card.user_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @name_card.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
+  <dd><%= @name_card.address %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:fax) %>:</strong></dt>
+  <dd><%= @name_card.fax %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:tel) %>:</strong></dt>
+  <dd><%= @name_card.tel %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:url) %>:</strong></dt>
+  <dd><%= @name_card.url %></dd>
+</dl>
 
-<p>
-  <strong>Address:</strong>
-  <%= @name_card.address %>
-</p>
-
-<p>
-  <strong>Fax:</strong>
-  <%= @name_card.fax %>
-</p>
-
-<p>
-  <strong>Tel:</strong>
-  <%= @name_card.tel %>
-</p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @name_card.url %>
-</p>
-
-<%= link_to 'Edit', edit_name_card_path(@name_card) %> |
-<%= link_to 'Back', name_cards_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              name_cards_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_name_card_path(@name_card), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              name_card_path(@name_card),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
