@@ -4,7 +4,10 @@ class NameCardsController < ApplicationController
   # GET /name_cards
   # GET /name_cards.json
   def index
-    @name_cards = NameCard.all
+    @company = Company.find(params[:company_id])
+    @group = @company.groups.find(params[:group_id])
+    @user = @group.users.find(params[:user_id])
+    @name_cards = @user.name_cards
   end
 
   # GET /name_cards/1
@@ -14,7 +17,10 @@ class NameCardsController < ApplicationController
 
   # GET /name_cards/new
   def new
-    @name_card = NameCard.new
+    @company = Company.find(params[:company_id])
+    @group = @company.groups.find(params[:group_id])
+    @user = @group.users.find(params[:user_id])
+    @name_card = @user.name_cards.new
   end
 
   # GET /name_cards/1/edit
@@ -24,11 +30,11 @@ class NameCardsController < ApplicationController
   # POST /name_cards
   # POST /name_cards.json
   def create
-    @name_card = NameCard.new(name_card_params)
+    @name_card = Company.find(params[:company_id]).groups.find(params[:group_id]).users.find(params[:user_id]).name_cards.new(name_card_params)
 
     respond_to do |format|
       if @name_card.save
-        format.html { redirect_to @name_card, notice: 'Name card was successfully created.' }
+        format.html { redirect_to company_group_user_name_card_path(@name_card.user.group.company_id, @name_card.user.group_id, @name_card.user.id, @name_card.id), notice: 'Name card was successfully created.' }
         format.json { render :show, status: :created, location: @name_card }
       else
         format.html { render :new }
@@ -42,7 +48,7 @@ class NameCardsController < ApplicationController
   def update
     respond_to do |format|
       if @name_card.update(name_card_params)
-        format.html { redirect_to @name_card, notice: 'Name card was successfully updated.' }
+        format.html { redirect_to company_group_user_name_card_path(@name_card.user.group.company_id, @name_card.user.group_id, @name_card.user.id, @name_card.id), notice: 'Name card was successfully updated.' }
         format.json { render :show, status: :ok, location: @name_card }
       else
         format.html { render :edit }
@@ -56,7 +62,7 @@ class NameCardsController < ApplicationController
   def destroy
     @name_card.destroy
     respond_to do |format|
-      format.html { redirect_to name_cards_url, notice: 'Name card was successfully destroyed.' }
+      format.html { redirect_to company_group_user_name_cards_url, notice: 'Name card was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -64,7 +70,10 @@ class NameCardsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_name_card
-      @name_card = NameCard.find(params[:id])
+      @company = Company.find(params[:company_id])
+      @group = @company.groups.find(params[:group_id])
+      @user = @group.users.find(params[:user_id])
+      @name_card = @user.name_cards.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -4,7 +4,9 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = Company.find(params[:company_id]).groups.find(params[:group_id]).users
+    @company = Company.find(params[:company_id])
+    @group = @company.groups.find(params[:group_id])
+    @users = @group.users
   end
 
   # GET /users/1

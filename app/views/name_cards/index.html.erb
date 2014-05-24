@@ -5,33 +5,27 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:user_id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:address) %></th>
       <th><%= model_class.human_attribute_name(:fax) %></th>
       <th><%= model_class.human_attribute_name(:tel) %></th>
       <th><%= model_class.human_attribute_name(:url) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @name_cards.each do |name_card| %>
       <tr>
-        <td><%= link_to name_card.id, name_card_path(name_card) %></td>
-        <td><%= name_card.user_id %></td>
-        <td><%= name_card.name %></td>
+        <td><%= link_to name_card.name, company_group_user_name_card_path(name_card.user.group.company_id, name_card.user.group_id, name_card.user_id, name_card.id) %></td>
         <td><%= name_card.address %></td>
         <td><%= name_card.fax %></td>
         <td><%= name_card.tel %></td>
         <td><%= name_card.url %></td>
-        <td><%=l name_card.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_name_card_path(name_card), :class => 'btn btn-mini' %>
+                      edit_company_group_user_name_card_path(name_card.user.group.company_id, name_card.user.group_id, name_card.user_id, name_card.id), :class => 'btn btn-mini' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      name_card_path(name_card),
+                      company_group_user_name_card_path(name_card.user.group.company_id, name_card.user.group_id, name_card.user_id, name_card.id),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-mini btn-danger' %>
@@ -42,5 +36,8 @@
 </table>
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_name_card_path,
+            new_company_group_user_name_card_path,
             :class => 'btn btn-primary' %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+            company_group_users_path,
+            :class => 'btn btn-info' %>
