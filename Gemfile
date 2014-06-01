@@ -41,3 +41,8 @@ gem "kaminari"
 gem "twitter-bootstrap-rails", :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem "less-rails"
 gem "rb-readline"
+group :test do
+gem "factory_girl_rails"
+gem "rspec"
+gem "rspec-rails"
+end
