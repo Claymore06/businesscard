@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :loginusers
+#  devise_for :loginusers
   resources :companies do
     resources :groups do
       resources :users do

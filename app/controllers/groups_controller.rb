@@ -4,7 +4,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Company.find(params[:company_id]).groups
+    @groups = Company.find(params[:company_id]).groups.page(params[:page])
   end
 
   # GET /groups/1
@@ -29,7 +29,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to company_group_path(@group.company_id,@group.id), notice: 'Group was successfully created.' }
+        format.html { redirect_to company_group_path(@group.company_id,@group.id), notice: '正常に作成しました' }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        format.html { redirect_to company_group_path(@group.company_id,@group.id), notice: 'Group was successfully updated.' }
+        format.html { redirect_to company_group_path(@group.company_id,@group.id), notice: '正常に更新しました' }
         format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to company_groups_url(params[:company_id]), notice: 'Group was successfully destroyed.' }
+      format.html { redirect_to company_groups_url(params[:company_id]), notice: '正常に削除しました' }
       format.json { head :no_content }
     end
   end

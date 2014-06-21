@@ -10,7 +10,7 @@
 
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
-              company_groups_path, :class => 'btn'  %>
+              company_groups_path, :class => 'btn btn-info'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_company_group_path(@group.company_id, @group), :class => 'btn' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

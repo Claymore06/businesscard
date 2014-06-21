@@ -7,7 +7,7 @@ class NameCardsController < ApplicationController
     @company = Company.find(params[:company_id])
     @group = @company.groups.find(params[:group_id])
     @user = @group.users.find(params[:user_id])
-    @name_cards = @user.name_cards
+    @name_cards = @user.name_cards.page(params[:page])
   end
 
   # GET /name_cards/1
@@ -34,7 +34,7 @@ class NameCardsController < ApplicationController
 
     respond_to do |format|
       if @name_card.save
-        format.html { redirect_to company_group_user_name_card_path(@name_card.user.group.company_id, @name_card.user.group_id, @name_card.user.id, @name_card.id), notice: 'Name card was successfully created.' }
+        format.html { redirect_to company_group_user_name_card_path(@name_card.user.group.company_id, @name_card.user.group_id, @name_card.user.id, @name_card.id), notice: '正常に作成しました' }
         format.json { render :show, status: :created, location: @name_card }
       else
         format.html { render :new }
@@ -48,7 +48,7 @@ class NameCardsController < ApplicationController
   def update
     respond_to do |format|
       if @name_card.update(name_card_params)
-        format.html { redirect_to company_group_user_name_card_path(@name_card.user.group.company_id, @name_card.user.group_id, @name_card.user.id, @name_card.id), notice: 'Name card was successfully updated.' }
+        format.html { redirect_to company_group_user_name_card_path(@name_card.user.group.company_id, @name_card.user.group_id, @name_card.user.id, @name_card.id), notice: '正常に更新しました' }
         format.json { render :show, status: :ok, location: @name_card }
       else
         format.html { render :edit }
@@ -62,7 +62,7 @@ class NameCardsController < ApplicationController
   def destroy
     @name_card.destroy
     respond_to do |format|
-      format.html { redirect_to company_group_user_name_cards_url, notice: 'Name card was successfully destroyed.' }
+      format.html { redirect_to company_group_user_name_cards_url, notice: '正常に削除しました' }
       format.json { head :no_content }
     end
   end

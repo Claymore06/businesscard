@@ -1,13 +1,11 @@
 <%- model_class = User -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
 </div>
 <table class="table table-striped">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:mail) %></th>
-      <th><%= model_class.human_attribute_name(:tel) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -15,24 +13,22 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user.name, company_group_user_path(user.group.company_id,user.group_id, user.id) %></td>
-        <td><%= user.mail %></td>
-        <td><%= user.tel %></td>
         <td>
           <%= link_to t('.show', :default => t("helpers.links.show")),
-            company_group_user_name_cards_path(user.group.company_id, user.group_id, user.id), :class => 'btn btn-mini' %>
+            company_group_user_name_cards_path(user.group.company_id, user.group_id, user.id), :class => 'btn btn-info' %>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_company_group_user_path(user.group.company_id, user.group_id, user.id), :class => 'btn btn-mini' %>
+                      edit_company_group_user_path(user.group.company_id, user.group_id, user.id), :class => 'btn' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       company_group_users_path(user.group.company_id,user.group_id, user.id),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
+                      :class => 'btn  btn-danger' %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
+<%= paginate(@users) %>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_company_group_user_path,
             :class => 'btn btn-primary' %>

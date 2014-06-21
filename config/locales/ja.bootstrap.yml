@@ -8,7 +8,7 @@ ja:
     pages:
       pages: "Pages"
   helpers:
-    actions: "Actions"
+    actions: "アクション"
     links:
       back: "戻る"
       cancel: "キャンセル"

@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def index
     @company = Company.find(params[:company_id])
     @group = @company.groups.find(params[:group_id])
-    @users = @group.users
+    @users = @group.users.page(params[:page])
   end
 
   # GET /users/1
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to company_group_user_path(@user.group.company_id, @user.group_id, @user), notice: 'User was successfully created.' }
+        format.html { redirect_to company_group_user_path(@user.group.company_id, @user.group_id, @user), notice: '正常に作成しました' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to  company_group_user_path(@user.group.company_id, @user.group_id, @user), notice: 'User was successfully updated.' }
+        format.html { redirect_to  company_group_user_path(@user.group.company_id, @user.group_id, @user), notice: '正常に更新しました' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to company_group_users_path, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to company_group_users_path, notice: '正常に削除しました' }
       format.json { head :no_content }
     end
   end
