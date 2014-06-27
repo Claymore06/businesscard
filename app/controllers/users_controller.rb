@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
+  before_action :set_company
+  before_action :set_group
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
-    @company = Company.find(params[:company_id])
-    @group = @company.groups.find(params[:group_id])
     @users = @group.users.page(params[:page])
   end
 
@@ -16,8 +16,6 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @company = Company.find(params[:company_id])
-    @group = @company.groups.find(params[:group_id])
     @user = @group.users.new
   end
 
@@ -30,49 +28,36 @@ class UsersController < ApplicationController
   def create
     @user = Company.find(params[:company_id]).groups.find(params[:group_id]).users.new(user_params)
 
-    respond_to do |format|
       if @user.save
-        format.html { redirect_to company_group_user_path(@user.group.company_id, @user.group_id, @user), notice: '正常に作成しました' }
-        format.json { render :show, status: :created, location: @user }
+         redirect_to company_group_user_path(@user.group.company_id, @user.group_id, @user), notice: '正常に作成しました'
+         render :show, status: :created, location: @user
       else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+         render :new
+         render json: @user.errors, status: :unprocessable_entity
       end
-    end
   end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to  company_group_user_path(@user.group.company_id, @user.group_id, @user), notice: '正常に更新しました' }
-        format.json { render :show, status: :ok, location: @user }
+         redirect_to  company_group_user_path(@user.group.company_id, @user.group_id, @user), notice: '正常に更新しました'
+         render :show, status: :ok, location: @user
       else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+         render :edit
+         render json: @user.errors, status: :unprocessable_entity
       end
-    end
   end
 
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
     @user.destroy
-    respond_to do |format|
-      format.html { redirect_to company_group_users_path, notice: '正常に削除しました' }
-      format.json { head :no_content }
-    end
+       redirect_to company_group_users_path, notice: '正常に削除しました'
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @company = Company.find(params[:company_id])
-      @group = @company.groups.find(params[:group_id])
-      @user = @group.users.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:name, :mail, :tel)

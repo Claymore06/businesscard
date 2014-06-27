@@ -1,10 +1,11 @@
 class GroupsController < ApplicationController
+  before_action :set_company
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Company.find(params[:company_id]).groups.page(params[:page])
+    @groups = @company.groups.page(params[:page])
   end
 
   # GET /groups/1
@@ -14,7 +15,6 @@ class GroupsController < ApplicationController
 
   # GET /groups/new
   def new
-    @company = Company.find(params[:company_id])
     @group = @company.groups.new
   end
 
@@ -26,49 +26,29 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     @group = Company.find(params[:company_id]).groups.new(group_params)
-
-    respond_to do |format|
       if @group.save
-        format.html { redirect_to company_group_path(@group.company_id,@group.id), notice: '正常に作成しました' }
-        format.json { render :show, status: :created, location: @group }
+         redirect_to company_group_path(@group.company_id,@group.id), notice: '正常に作成しました'
       else
-        format.html { render :new }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
+         render :new
       end
-    end
   end
 
   # PATCH/PUT /groups/1
-  # PATCH/PUT /groups/1.json
   def update
-    respond_to do |format|
       if @group.update(group_params)
-        format.html { redirect_to company_group_path(@group.company_id,@group.id), notice: '正常に更新しました' }
-        format.json { render :show, status: :ok, location: @group }
+         redirect_to company_group_path(@group.company_id,@group.id), notice: '正常に更新しました'
       else
-        format.html { render :edit }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
+         render :edit
       end
-    end
   end
 
   # DELETE /groups/1
-  # DELETE /groups/1.json
   def destroy
     @group.destroy
-    respond_to do |format|
-      format.html { redirect_to company_groups_url(params[:company_id]), notice: '正常に削除しました' }
-      format.json { head :no_content }
-    end
+    redirect_to company_groups_url(params[:company_id]), notice: '正常に削除しました'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_group
-      @company = Company.find(params[:company_id])
-      @group = @company.groups.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
       params.require(:group).permit(:name)

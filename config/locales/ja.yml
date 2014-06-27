@@ -203,7 +203,6 @@ ja:
             fax:
               invalid: "一般的な電話番号を-(ハイフン付き)で入力してください"
               too_long: "13文字以内で入力してください"
- 
     models:
       company: "会社"
       group: "部署"
